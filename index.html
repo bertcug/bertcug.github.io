@@ -68,6 +68,49 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-流量劫持" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/04/01/流量劫持/" class="article-date">
+  <time datetime="2017-04-01T03:13:50.000Z" itemprop="datePublished">2017-04-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/01/流量劫持/">流量劫持</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>流量劫持是网络中常见的网络安全问题，那些情况会造成流量劫持？<strong>腾讯校招笔试题</strong><br>A. MAC地址欺骗<br>B. DNS劫持<br>C. 伪造的DHCP服务器<br>D. 使用https协议</p>
+<h2 id="DNS劫持"><a href="#DNS劫持" class="headerlink" title="DNS劫持"></a>DNS劫持</h2><p>​      DNS劫持无疑肯定是，DNS服务负责域名解析，一旦DNS服务器遭受攻击，所有设置该DNS的用户都将受到影响，如果DNS服务器受到黑客控制，黑客可以将正常域名解析到自己的HTTP代理服务器，在不影响受害者上网的情况下进行网络流量监听，想想就可怕！<br>​        当然，DNS劫持也不是只能用来干坏事，DNS解析是本机通过<code>getaddrinfo</code>像DNS服务器进行域名解析的，如果自己设置黑名单，将一些广告或者恶意<code>url</code>屏蔽掉的话，就可以做到去广告和提高安全性了，一些去广告软件也是运用类似原理，让广告的<code>url</code>得不到正确解析所以就无法加载成功了。</p>
+<h2 id="MAC地址欺骗"><a href="#MAC地址欺骗" class="headerlink" title="MAC地址欺骗"></a>MAC地址欺骗</h2><p>​      交换机的出现逐渐淘汰了集线器。交换机会绑定 MAC 地址和接口，数据包最终只发往一个终端。因此只要事先配置好 MAC 对应的接口，理论上非常安全了。<br>​       不过，很少有人会那么做，大多为了偷懒，直接使用了设备默认的模式 —— 自动学习。设备根据某个接口发出的包，自动关联该包的源地址到此接口。然而这种学习并不智能，甚至太过死板，任何一个道听途说都会当作真理。用户发送一个自定义源 MAC 地址的包是非常容易的，因此交换机成了非常容易被忽悠的对象。只要伪造一个源地址，就能将这个地址关联到自己的接口上，以此获得受害者的流量。<br>​       不过，受害者接着再发出一个包，绑定关系又恢复原先正常的。因此只要比谁发的频繁，谁就能竞争到这个 MAC 地址的接收权。如果伪造的是网关地址，交换机就误以为网关电缆插到你接口上，网络环境里的出站流量瞬间都到了你这里。<br>​      当然，除非你有其他出站渠道，可以将窃取的数据代理出去；否则就别想再转发给被你打垮的真网关了，被劫持的用户也就没法上外网。所以这招危害性不是很大，但破坏性很强，可以瞬间集体断网。<br>​       防范措施：机器固定的网络尽量绑定 MAC 和接口吧。貌似大多数网吧都绑定了 MAC 和接口，极大增强了链路层的安全性。同时，独立的子网段尽可能划分 VLAN，避免过大的广播环境。</p>
+<h2 id="ARP攻击"><a href="#ARP攻击" class="headerlink" title="ARP攻击"></a>ARP攻击</h2><p>​        ARP 就是广播查询某个 IP 对应的 MAC 地址，在用这个 IP 的人回个声。知道这个 IP 对应的 MAC 地址，就可以链路通信了（链路层只能通过MAC地址通信）。<br>​       如果有人冒充回复，并抢在正常人之前，伪造的答案也就先入为主。IP 被解析到错误的地址上，之后所有的通信都被劫持了。<br>​       事实上，早期的系统还有个更严重的BUG：直接给用户发送一个 ARP 回复包，即使对方从没请求过，系统也会接受这个回复，并提前保存里面的记录。这种基于缓存的投毒，让劫持成功率更上一层楼。<br><strong>防范措施</strong>：由于这种攻击太过泛滥，以至大部分路由器都带了防 ARP 攻击的功能。客户端的 ARP 防火墙也数不胜数，似乎成了安全软件的标配。当然，系统也支持强制绑定 IP 与 MAC 的对应，必要时可以使用。</p>
+<h2 id="伪装的DHCP服务器"><a href="#伪装的DHCP服务器" class="headerlink" title="伪装的DHCP服务器"></a>伪装的DHCP服务器</h2><p>​       由于没有配置IP地址、网关、DNS 等，在网络上是寸步难行的，因此首先需要从 DHCP 那获得这些信息。然而，既然连 IP 地址都没有，那又是如何通信的？显然，只能发到广播地址（255.255.255.255）上，而自己则暂时使用无效的IP地址（0.0.0.0）。（事实上，链路层的通信只要有 MAC 地址就行，IP 地址已属于网络层了，但 DHCP 由于某些特殊需要使用的是 UDP 协议）<br>​       因为是发往广播，内网环境里的所有用户都能听到。如果存在多个DHCP服务器，则分别予以回复；用户则选择最先收到的。由于规则是如此简单，以至于用户没有选择的余地。<br>​       如果有黑客也在内网里也开启了 DHCP 服务，用户收到的回复包很可能就是黑客发出的，这时用户的网络配置就会听由黑客接管了，被劫持就是不能避免的。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/04/01/流量劫持/" data-id="cj0yptjs4000044s2nqz7gohk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/流量劫持/">流量劫持</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-传奇单机BackMir逆向" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/03/31/传奇单机BackMir逆向/" class="article-date">
@@ -1249,16 +1292,12 @@
 <p><img src="/images/bm3.png" alt=""></p>
 <p>自己道士玩得多，所以功能也弄得多，不过战士能自动打怪后，挂机比道士轻松太多。<br>PS：有几次开着这辅助玩LOL，被封了两次三天的号        拳头爸爸，我没用LOL外挂啊  TT</p>
 <h2 id="GameSvr逆向笔记"><a href="#GameSvr逆向笔记" class="headerlink" title="GameSvr逆向笔记"></a>GameSvr逆向笔记</h2><ul>
-<li><p>找全局变量</p>
-<blockquote>
-<p>找到了全局经验表，以及加密经验表的mask的地址，由于没有ALSR，所以配合cheatengine一小段lua脚本，让所有的升级经验都为1，可惜了，游戏就这么毁了。</p>
-</blockquote>
-</li>
-<li><p>EXPRTableMask 2DD2F0 (2.10.18)</p>
-</li>
+<li>找全局变量：找到了全局经验表，以及加密经验表的mask的地址，配合cheatengine一小段lua脚本，让所有的升级经验都为1。可惜了，游戏就这么毁了。</li>
+<li>EXPRTableMask 2DD2F0 (2.10.18)</li>
 <li>EXPRTable 2CA570 (2.10.18)  </li>
 <li>加密算法是异或，直接IDA修改数据是不行的，可能有一些检查和验证机制，但是cheatengine改加密后的数据是可行的。</li>
-<li><p>很遗憾，后来经过查验，上面的地址是会变的，原因应该是基址发生变化，好在cheatengine支持符号作为地址，可以很容易找到所有的地址。</p>
+<li>很遗憾，后来经过查验，上面的地址是会变的，原因应该是基址发生变化，因为开启了ASLR，好在cheatengine支持符号作为地址，可以很容易找到所有的地址。</li>
+</ul>
 <h2 id="IDA分析出的所有符号列表："><a href="#IDA分析出的所有符号列表：" class="headerlink" title="IDA分析出的所有符号列表："></a>IDA分析出的所有符号列表：</h2><ul>
 <li><code>gamesvr.g_bGlobalEncrypt</code>      标识全局数据是否加密</li>
 <li><code>gamesvr.g_nExprTable</code>           经验表</li>
@@ -1268,8 +1307,6 @@
 <li><code>gamesvr.g_pxHeros</code>:当前在线用户列表（指针类型），定义的是GameObject类型，可强制转换，看到了强制转换代码</li>
 <li><code>gamesvr.g_xMagicInfoTable</code>     角色技能表 <code>vector&lt;MonsLogicItem&gt;</code></li>
 <li><code>gamesvr.g_xUserInfoList</code>         暂时没研究</li>
-</ul>
-</li>
 </ul>
 <h2 id="服务端GameObject"><a href="#服务端GameObject" class="headerlink" title="服务端GameObject"></a>服务端GameObject</h2><ul>
 <li>GameObject  (sizeof=0x1D8, align=0x4)</li>
@@ -2222,7 +2259,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/31/传奇单机BackMir逆向/" data-id="cj0xio63t00019ss26o7hh8fg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/31/传奇单机BackMir逆向/" data-id="cj0yptjs5000244s2ycld8hur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BackMir/">BackMir</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/逆向/">逆向</a></li></ul>
@@ -2269,7 +2306,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/31/hello-world/" data-id="cj0xio63t00009ss2qzvzxwl4" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/31/hello-world/" data-id="cj0yptjs5000144s2fhpz26rv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -2291,7 +2328,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BackMir/">BackMir</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BackMir/">BackMir</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/流量劫持/">流量劫持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li></ul>
     </div>
   </div>
 
@@ -2301,7 +2338,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BackMir/" style="font-size: 10px;">BackMir</a> <a href="/tags/逆向/" style="font-size: 10px;">逆向</a>
+      <a href="/tags/BackMir/" style="font-size: 10px;">BackMir</a> <a href="/tags/流量劫持/" style="font-size: 10px;">流量劫持</a> <a href="/tags/逆向/" style="font-size: 10px;">逆向</a>
     </div>
   </div>
 
@@ -2310,7 +2347,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
     </div>
   </div>
 
@@ -2321,6 +2358,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/04/01/流量劫持/">流量劫持</a>
+          </li>
         
           <li>
             <a href="/2017/03/31/传奇单机BackMir逆向/">传奇单机BackMir逆向</a>

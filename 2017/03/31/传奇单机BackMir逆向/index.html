@@ -77,7 +77,7 @@ dd
 <meta property="og:image" content="http://yoursite.com/images/magic6_1.png">
 <meta property="og:image" content="http://yoursite.com/images/magic6_2.png">
 <meta property="og:image" content="http://yoursite.com/images/magic6_3.png">
-<meta property="og:updated_time" content="2017-03-31T07:53:03.043Z">
+<meta property="og:updated_time" content="2017-03-31T09:52:26.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="传奇单机BackMir逆向">
 <meta name="twitter:description" content="GamePlayer
@@ -1343,16 +1343,12 @@ dd
 <p><img src="/images/bm3.png" alt=""></p>
 <p>自己道士玩得多，所以功能也弄得多，不过战士能自动打怪后，挂机比道士轻松太多。<br>PS：有几次开着这辅助玩LOL，被封了两次三天的号        拳头爸爸，我没用LOL外挂啊  TT</p>
 <h2 id="GameSvr逆向笔记"><a href="#GameSvr逆向笔记" class="headerlink" title="GameSvr逆向笔记"></a>GameSvr逆向笔记</h2><ul>
-<li><p>找全局变量</p>
-<blockquote>
-<p>找到了全局经验表，以及加密经验表的mask的地址，由于没有ALSR，所以配合cheatengine一小段lua脚本，让所有的升级经验都为1，可惜了，游戏就这么毁了。</p>
-</blockquote>
-</li>
-<li><p>EXPRTableMask 2DD2F0 (2.10.18)</p>
-</li>
+<li>找全局变量：找到了全局经验表，以及加密经验表的mask的地址，配合cheatengine一小段lua脚本，让所有的升级经验都为1。可惜了，游戏就这么毁了。</li>
+<li>EXPRTableMask 2DD2F0 (2.10.18)</li>
 <li>EXPRTable 2CA570 (2.10.18)  </li>
 <li>加密算法是异或，直接IDA修改数据是不行的，可能有一些检查和验证机制，但是cheatengine改加密后的数据是可行的。</li>
-<li><p>很遗憾，后来经过查验，上面的地址是会变的，原因应该是基址发生变化，好在cheatengine支持符号作为地址，可以很容易找到所有的地址。</p>
+<li>很遗憾，后来经过查验，上面的地址是会变的，原因应该是基址发生变化，因为开启了ASLR，好在cheatengine支持符号作为地址，可以很容易找到所有的地址。</li>
+</ul>
 <h2 id="IDA分析出的所有符号列表："><a href="#IDA分析出的所有符号列表：" class="headerlink" title="IDA分析出的所有符号列表："></a>IDA分析出的所有符号列表：</h2><ul>
 <li><code>gamesvr.g_bGlobalEncrypt</code>      标识全局数据是否加密</li>
 <li><code>gamesvr.g_nExprTable</code>           经验表</li>
@@ -1362,8 +1358,6 @@ dd
 <li><code>gamesvr.g_pxHeros</code>:当前在线用户列表（指针类型），定义的是GameObject类型，可强制转换，看到了强制转换代码</li>
 <li><code>gamesvr.g_xMagicInfoTable</code>     角色技能表 <code>vector&lt;MonsLogicItem&gt;</code></li>
 <li><code>gamesvr.g_xUserInfoList</code>         暂时没研究</li>
-</ul>
-</li>
 </ul>
 <h2 id="服务端GameObject"><a href="#服务端GameObject" class="headerlink" title="服务端GameObject"></a>服务端GameObject</h2><ul>
 <li>GameObject  (sizeof=0x1D8, align=0x4)</li>
@@ -2316,7 +2310,7 @@ dd
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/03/31/传奇单机BackMir逆向/" data-id="cj0xio63t00019ss26o7hh8fg" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/03/31/传奇单机BackMir逆向/" data-id="cj0yptjs5000244s2ycld8hur" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/BackMir/">BackMir</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/逆向/">逆向</a></li></ul>
@@ -2326,6 +2320,15 @@ dd
   
     
 <nav id="article-nav">
+  
+    <a href="/2017/04/01/流量劫持/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          流量劫持
+        
+      </div>
+    </a>
   
   
     <a href="/2017/03/31/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
@@ -2349,7 +2352,7 @@ dd
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BackMir/">BackMir</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/BackMir/">BackMir</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/流量劫持/">流量劫持</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/逆向/">逆向</a></li></ul>
     </div>
   </div>
 
@@ -2359,7 +2362,7 @@ dd
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/BackMir/" style="font-size: 10px;">BackMir</a> <a href="/tags/逆向/" style="font-size: 10px;">逆向</a>
+      <a href="/tags/BackMir/" style="font-size: 10px;">BackMir</a> <a href="/tags/流量劫持/" style="font-size: 10px;">流量劫持</a> <a href="/tags/逆向/" style="font-size: 10px;">逆向</a>
     </div>
   </div>
 
@@ -2368,7 +2371,7 @@ dd
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">四月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li></ul>
     </div>
   </div>
 
@@ -2379,6 +2382,10 @@ dd
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/04/01/流量劫持/">流量劫持</a>
+          </li>
         
           <li>
             <a href="/2017/03/31/传奇单机BackMir逆向/">传奇单机BackMir逆向</a>
